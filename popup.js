@@ -63,3 +63,35 @@ function restoreInputs() {
         }
     });
 }
+
+// 导出数据
+document.getElementById('exportButton').addEventListener('click', function() {
+    chrome.storage.local.get('inputs', function(data) {
+        if (data.inputs) {
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data.inputs));
+            var downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "exported_data.json");
+            document.body.appendChild(downloadAnchorNode); // Firefox需要这一步
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+    });
+});
+
+// 导入数据
+document.getElementById('importButton').addEventListener('click', function() {
+    var fileInput = document.getElementById('fileInput');
+    fileInput.click();
+    fileInput.onchange = function() {
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var importedData = JSON.parse(e.target.result);
+            chrome.storage.local.set({inputs: importedData}, function() {
+                restoreInputs(); // 更新UI
+            });
+        };
+        reader.readAsText(file);
+    };
+});
