@@ -1,7 +1,29 @@
-// 当页面加载完毕时，尝试从 localStorage 中获取额外请求的数据并显示在输入框中
+// 当页面加载完毕时，从 localStorage 中获取问题背景的数据并显示在输入框中
 document.addEventListener('DOMContentLoaded', function() {
+    var relatedModule = document.getElementById('relatedModule');
+    var specificCode = document.getElementById('specificCode');
 
+    // 从 localStorage 中恢复数据
+    var savedData = localStorage.getItem('questionBackgroundData');
+    if (savedData) {
+        savedData = JSON.parse(savedData);
+        relatedModule.value = savedData.relatedModule || '';
+        specificCode.value = savedData.specificCode || '';
+    }
+
+    // 监听输入框的变化并实时保存数据
+    relatedModule.addEventListener('input', saveData);
+    specificCode.addEventListener('input', saveData);
 });
+
+// 保存数据到 localStorage
+function saveData() {
+    var dataToSave = {
+        relatedModule: document.getElementById('relatedModule').value,
+        specificCode: document.getElementById('specificCode').value
+    };
+    localStorage.setItem('questionBackgroundData', JSON.stringify(dataToSave));
+}
 
 // 为复制按钮添加点击事件监听器
 document.getElementById('copyButton').addEventListener('click', function() {
