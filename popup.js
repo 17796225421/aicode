@@ -14,6 +14,7 @@ commitButton.addEventListener('click', function() {
 });
 
 // 监听输入框内容变化
+document.getElementById('dataName').addEventListener('input', saveInputs);
 document.getElementById('request').addEventListener('input', saveInputs);
 document.getElementById('module').addEventListener('input', saveInputs);
 document.getElementById('question').addEventListener('input', saveInputs);
@@ -44,6 +45,7 @@ function copyPromptToClipboard(prompt) {
 // 保存输入数据到本地存储
 function saveInputs() {
     var inputs = {
+        dataName: document.getElementById('dataName').innerText, // 获取并保存数据命名
         request: document.getElementById('request').value,
         module: document.getElementById('module').value,
         question: document.getElementById('question').value,
@@ -56,6 +58,7 @@ function saveInputs() {
 function restoreInputs() {
     chrome.storage.local.get('inputs', function(data) {
         if (data.inputs) {
+            document.getElementById('dataName').innerText = data.inputs.dataName || '未命名'; // 恢复数据命名
             document.getElementById('request').value = data.inputs.request || '';
             document.getElementById('module').value = data.inputs.module || '';
             document.getElementById('question').value = data.inputs.question || '';
@@ -68,16 +71,18 @@ function restoreInputs() {
 document.getElementById('exportButton').addEventListener('click', function() {
     chrome.storage.local.get('inputs', function(data) {
         if (data.inputs) {
+            var fileName = data.inputs.dataName ? data.inputs.dataName + '.json' : 'exported_data.json'; // 使用数据命名作为文件名
             var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data.inputs));
             var downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "exported_data.json");
+            downloadAnchorNode.setAttribute("download", fileName);
             document.body.appendChild(downloadAnchorNode); // Firefox需要这一步
             downloadAnchorNode.click();
             downloadAnchorNode.remove();
         }
     });
 });
+
 
 // 导入数据
 document.getElementById('importButton').addEventListener('click', function() {
