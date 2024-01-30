@@ -1,9 +1,25 @@
-// 获取复制按钮的DOM元素
+// 获取按钮的DOM元素
+var questionButton = document.getElementById('questionButton');
+var extraRequestButton = document.getElementById('extraRequestButton');
+var questionBackgroundButton = document.getElementById('questionBackgroundButton');
+var moduleButton = document.getElementById('moduleButton');
 var copyButton = document.getElementById('copyButton');
 
-// 页面加载时，从存储中恢复数据
-document.addEventListener('DOMContentLoaded', function() {
-    restoreInputs();
+// 设置按钮的点击事件监听器，用于改变当前页面的地址
+questionButton.addEventListener('click', function() {
+    window.location.href = 'detailPages/questionDetail.html';
+});
+
+extraRequestButton.addEventListener('click', function() {
+    window.location.href = 'detailPages/extraRequestDetail.html';
+});
+
+questionBackgroundButton.addEventListener('click', function() {
+    window.location.href = 'detailPages/questionBackgroundDetail.html';
+});
+
+moduleButton.addEventListener('click', function() {
+    window.location.href = 'detailPages/moduleDetail.html';
 });
 
 // 设置复制按钮的点击事件监听器
@@ -13,12 +29,13 @@ copyButton.addEventListener('click', function() {
     saveInputs(); // 保存输入数据到本地存储
 });
 
+// 页面加载时，从存储中恢复数据
+document.addEventListener('DOMContentLoaded', function() {
+    restoreInputs();
+});
+
 // 监听输入框内容变化
 document.getElementById('projectName').addEventListener('input', saveInputs);
-document.getElementById('question').addEventListener('input', saveInputs);
-document.getElementById('extraRequest').addEventListener('input', saveInputs);
-document.getElementById('questionBackground').addEventListener('input', saveInputs);
-document.getElementById('module').addEventListener('input', saveInputs);
 
 function combineInputPrompt() {
     var questionContent = document.getElementById('question').value;
@@ -59,10 +76,6 @@ function restoreInputs() {
     chrome.storage.local.get('inputs', function(data) {
         if (data.inputs) {
             document.getElementById('projectName').innerText = data.inputs.projectName || '未命名'; // 恢复数据命名
-            document.getElementById('question').value = data.inputs.question || '';
-            document.getElementById('extraRequest').value = data.inputs.extraRequest || '';
-            document.getElementById('questionBackground').value = data.inputs.questionBackground || '';
-            document.getElementById('module').value = data.inputs.module || '';
         }
     });
 }
