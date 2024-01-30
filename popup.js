@@ -1,13 +1,13 @@
-// 获取提交按钮的DOM元素
-var commitButton = document.getElementById('commitButton');
+// 获取复制按钮的DOM元素
+var copyButton = document.getElementById('copyButton');
 
 // 页面加载时，从存储中恢复数据
 document.addEventListener('DOMContentLoaded', function() {
     restoreInputs();
 });
 
-// 设置提交按钮的点击事件监听器
-commitButton.addEventListener('click', function() {
+// 设置复制按钮的点击事件监听器
+copyButton.addEventListener('click', function() {
     var promptContent = combineInputPrompt();
     copyPromptToClipboard(promptContent);
     saveInputs(); // 保存输入数据到本地存储
