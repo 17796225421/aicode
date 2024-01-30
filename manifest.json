@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "我的Chrome扩展",
+  "version": "1.0",
+  "description": "一个简单的Chrome扩展示例",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage"
+  ]
+}
