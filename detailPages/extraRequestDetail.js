@@ -21,9 +21,8 @@ function saveData() {
     localStorage.setItem('extraRequestData', JSON.stringify(dataToSave));
 }
 
-// 为复制按钮添加点击事件监听器
-document.getElementById('copyButton').addEventListener('click', function() {
-});
+// 直接为复制按钮绑定复制功能的事件监听器
+document.getElementById('copyButton').addEventListener('click', copyAllDataToClipboard);
 
 // 为返回按钮添加点击事件监听器
 document.getElementById('backButton').addEventListener('click', function() {

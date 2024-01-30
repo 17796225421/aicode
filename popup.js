@@ -22,12 +22,8 @@ moduleButton.addEventListener('click', function() {
     window.location.href = 'detailPages/moduleDetail.html';
 });
 
-// 设置复制按钮的点击事件监听器
-copyButton.addEventListener('click', function() {
-    var promptContent = combineInputPrompt();
-    copyPromptToClipboard(promptContent);
-    saveInputs(); // 保存输入数据到本地存储
-});
+// 直接为复制按钮绑定复制功能的事件监听器
+document.getElementById('copyButton').addEventListener('click', copyAllDataToClipboard);
 
 // 页面加载时，从存储中恢复数据
 document.addEventListener('DOMContentLoaded', function() {
@@ -36,28 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 监听输入框内容变化
 document.getElementById('projectName').addEventListener('input', saveInputs);
-
-function combineInputPrompt() {
-    var questionContent = document.getElementById('question').value;
-    var extraRequestContent = document.getElementById('extraRequest').value;
-    var questionBackgroundContent = document.getElementById('questionBackground').value;
-    var moduleContent = document.getElementById('module').value;
-
-    return [
-        'question：' + questionContent,
-        'extraRequest：' + extraRequestContent,
-        'question background：' + questionBackgroundContent,
-        'module：' + moduleContent
-    ].join('\n');
-}
-
-function copyPromptToClipboard(prompt) {
-    navigator.clipboard.writeText(prompt).then(function() {
-        console.log('内容已复制到粘贴板');
-    }, function(err) {
-        console.error('无法复制内容: ', err);
-    });
-}
 
 // 保存输入数据到本地存储
 function saveInputs() {
