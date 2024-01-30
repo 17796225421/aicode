@@ -15,22 +15,22 @@ copyButton.addEventListener('click', function() {
 
 // 监听输入框内容变化
 document.getElementById('projectName').addEventListener('input', saveInputs);
-document.getElementById('request').addEventListener('input', saveInputs);
-document.getElementById('module').addEventListener('input', saveInputs);
 document.getElementById('question').addEventListener('input', saveInputs);
+document.getElementById('extraRequest').addEventListener('input', saveInputs);
 document.getElementById('questionBackground').addEventListener('input', saveInputs);
+document.getElementById('module').addEventListener('input', saveInputs);
 
 function combineInputPrompt() {
-    var requestContent = document.getElementById('request').value;
-    var moduleContent = document.getElementById('module').value;
     var questionContent = document.getElementById('question').value;
+    var extraRequestContent = document.getElementById('extraRequest').value;
     var questionBackgroundContent = document.getElementById('questionBackground').value;
+    var moduleContent = document.getElementById('module').value;
 
     return [
-        'request：' + requestContent,
-        'module：' + moduleContent,
         'question：' + questionContent,
-        'question background：' + questionBackgroundContent
+        'extraRequest：' + extraRequestContent,
+        'question background：' + questionBackgroundContent,
+        'module：' + moduleContent
     ].join('\n');
 }
 
@@ -46,10 +46,10 @@ function copyPromptToClipboard(prompt) {
 function saveInputs() {
     var inputs = {
         projectName: document.getElementById('projectName').innerText, // 获取并保存数据命名
-        request: document.getElementById('request').value,
-        module: document.getElementById('module').value,
         question: document.getElementById('question').value,
-        questionBackground: document.getElementById('questionBackground').value
+        extraRequest: document.getElementById('extraRequest').value,
+        questionBackground: document.getElementById('questionBackground').value,
+        module: document.getElementById('module').value
     };
     chrome.storage.local.set({inputs: inputs});
 }
@@ -59,10 +59,10 @@ function restoreInputs() {
     chrome.storage.local.get('inputs', function(data) {
         if (data.inputs) {
             document.getElementById('projectName').innerText = data.inputs.projectName || '未命名'; // 恢复数据命名
-            document.getElementById('request').value = data.inputs.request || '';
-            document.getElementById('module').value = data.inputs.module || '';
             document.getElementById('question').value = data.inputs.question || '';
+            document.getElementById('extraRequest').value = data.inputs.extraRequest || '';
             document.getElementById('questionBackground').value = data.inputs.questionBackground || '';
+            document.getElementById('module').value = data.inputs.module || '';
         }
     });
 }
