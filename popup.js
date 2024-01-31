@@ -60,14 +60,10 @@ document.getElementById('exportButton').addEventListener('click', function() {
 
     // 构建JSON对象
     let exportData = {
-        specificIssues: questionData.specificIssues,
-        emphasisCorrection: questionData.emphasisCorrection,
-        extraRequest: extraRequestData.extraRequest,
-        relatedModule: questionBackgroundData.relatedModule,
-        specificCode: questionBackgroundData.specificCode,
-        keyfileTree: moduleData.keyfileTree,
-        classFunctionDesc: moduleData.classFunctionDesc,
-        classVariable: moduleData.classVariable
+        questionData: questionData,
+        extraRequestData: extraRequestData,
+        questionBackgroundData: questionBackgroundData,
+        moduleData: moduleData
     };
 
     // 将对象转换为JSON字符串
@@ -91,32 +87,35 @@ document.getElementById('exportButton').addEventListener('click', function() {
     a.remove();
 });
 
-
-
-
-
 // 导入数据按钮点击事件
 document.getElementById('importButton').addEventListener('click', function() {
-    let fileInput = document.getElementById('fileInput');
-    if (!fileInput) {
-        fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.style.display = 'none';
-        document.body.appendChild(fileInput);
-    }
+    // 创建文件输入元素
+    let fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
     fileInput.click();
 
     fileInput.onchange = function() {
         let file = fileInput.files[0];
         let reader = new FileReader();
         reader.onload = function(e) {
+            // 解析文件内容为JSON
             let importedData = JSON.parse(e.target.result);
 
             // 存储解析后的数据到localStorage
-            localStorage.setItem('questionDetailData', JSON.stringify({ specificIssues: importedData.specificIssues, emphasisCorrection: importedData.emphasisCorrection }));
-            localStorage.setItem('extraRequestData', JSON.stringify({ extraRequest: importedData.extraRequest }));
-            localStorage.setItem('questionBackgroundData', JSON.stringify({ relatedModule: importedData.relatedModule, specificCode: importedData.specificCode }));
-            localStorage.setItem('moduleData', JSON.stringify({ keyfileTree: importedData.keyfileTree, classFunctionDesc: importedData.classFunctionDesc, classVariable: importedData.classVariable }));
+            if (importedData.questionData) {
+                localStorage.setItem('questionDetailData', JSON.stringify(importedData.questionData));
+            }
+            if (importedData.extraRequestData) {
+                localStorage.setItem('extraRequestData', JSON.stringify(importedData.extraRequestData));
+            }
+            if (importedData.questionBackgroundData) {
+                localStorage.setItem('questionBackgroundData', JSON.stringify(importedData.questionBackgroundData));
+            }
+            if (importedData.moduleData) {
+                localStorage.setItem('moduleData', JSON.stringify(importedData.moduleData));
+            }
 
             // 更新页面上显示的项目名称
             // 假设导出的文件名格式为: 项目名称.json
@@ -126,6 +125,7 @@ document.getElementById('importButton').addEventListener('click', function() {
             // 同时更新localStorage中的项目名称
             localStorage.setItem('projectName', projectName);
 
+            // 提示导入成功
             alert('数据导入成功！');
         };
         reader.readAsText(file);
