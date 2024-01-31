@@ -28,6 +28,14 @@ document.getElementById('copyButton').addEventListener('click', copyAllDataToCli
 // 页面加载时，从存储中恢复数据
 document.addEventListener('DOMContentLoaded', function() {
     restoreInputs();
+
+    // 从 localStorage 获取最后打开的页面
+    var lastOpenedPage = localStorage.getItem('lastOpenedPage');
+    console.log('Trying to navigate to:', lastOpenedPage);
+    // 如果存储中有页面状态，则导航到该页面
+    if (lastOpenedPage) {
+        window.location.href = lastOpenedPage;
+    }
 });
 
 // 监听输入框内容变化

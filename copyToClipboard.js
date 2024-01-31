@@ -5,13 +5,37 @@ function copyAllDataToClipboard() {
     var questionBackgroundData = JSON.parse(localStorage.getItem('questionBackgroundData')) || {};
     var moduleData = JSON.parse(localStorage.getItem('moduleData')) || {};
 
-    // 组合成一段文本
-    var combinedData = `
-        Question: ${questionData.specificIssues || ''} ${questionData.emphasisCorrection || ''}
-        Extra Request: ${extraRequestData.extraRequest || ''}
-        Question Background: ${questionBackgroundData.relatedModule || ''} ${questionBackgroundData.specificCode || ''}
-        Module: ${moduleData.keyfileTree || ''} ${moduleData.classFunctionDesc || ''} ${moduleData.classVariable || ''}
-    `;
+    // 组合成一段带有子标题的文本
+    var combinedData =
+`prompt=question+extra request+question background+module
+
+question
+question=具体问题+强调修正
+具体问题: 
+${questionData.specificIssues || ''}
+强调修正: 
+${questionData.emphasisCorrection || ''}
+
+【extra request】
+extra request=额外请求
+额外请求: 
+${extraRequestData.extraRequest || ''}
+
+【question background】
+question background=相关模块+具体代码
+相关模块: 
+${questionBackgroundData.relatedModule || ''}
+具体代码: 
+${questionBackgroundData.specificCode || ''}
+
+【module】
+module=关键文件树+类函数描述+类变量
+关键文件树: 
+${moduleData.keyfileTree || ''}
+类函数描述: 
+${moduleData.classFunctionDesc || ''}
+类变量: 
+${moduleData.classVariable || ''}`;
 
     // 复制到剪贴板
     navigator.clipboard.writeText(combinedData).then(function() {

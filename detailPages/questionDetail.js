@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 监听输入框的变化并实时保存数据
     specificIssues.addEventListener('input', saveData);
     emphasisCorrection.addEventListener('input', saveData);
+
+    // 保存当前页面状态
+    localStorage.setItem('lastOpenedPage', 'detailPages/questionDetail.html');
 });
 
 // 保存数据到 localStorage
@@ -30,5 +33,6 @@ document.getElementById('copyButton').addEventListener('click', copyAllDataToCli
 
 // 为返回按钮添加点击事件监听器
 document.getElementById('backButton').addEventListener('click', function() {
+    localStorage.removeItem('lastOpenedPage');
     window.location.href = '../popup.html'; // 返回到 popup.html
 });
