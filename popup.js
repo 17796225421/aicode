@@ -27,7 +27,6 @@ document.getElementById('copyButton').addEventListener('click', copyAllDataToCli
 
 // 页面加载时，从存储中恢复数据
 document.addEventListener('DOMContentLoaded', function() {
-    restoreInputs();
 
     // 从 localStorage 获取最后打开的页面
     var lastOpenedPage = localStorage.getItem('lastOpenedPage');
@@ -36,61 +35,98 @@ document.addEventListener('DOMContentLoaded', function() {
     if (lastOpenedPage) {
         window.location.href = lastOpenedPage;
     }
+
+    // 从 localStorage 加载 projectName
+    var savedProjectName = localStorage.getItem('projectName');
+    if (savedProjectName) {
+        document.getElementById('projectName').innerText = savedProjectName;
+    }
+
+    // 实时监听 projectName 的更改并保存到 localStorage
+    document.getElementById('projectName').addEventListener('input', function() {
+        var currentProjectName = document.getElementById('projectName').innerText;
+        localStorage.setItem('projectName', currentProjectName);
+    });
+
 });
 
-// 监听输入框内容变化
-document.getElementById('projectName').addEventListener('input', saveInputs);
 
-// 保存输入数据到本地存储
-function saveInputs() {
-    var inputs = {
-        projectName: document.getElementById('projectName').innerText, // 获取并保存数据命名
-        question: document.getElementById('question').value,
-        extraRequest: document.getElementById('extraRequest').value,
-        questionBackground: document.getElementById('questionBackground').value,
-        module: document.getElementById('module').value
-    };
-    chrome.storage.local.set({inputs: inputs});
-}
-
-// 从存储中恢复输入数据
-function restoreInputs() {
-    chrome.storage.local.get('inputs', function(data) {
-        if (data.inputs) {
-            document.getElementById('projectName').innerText = data.inputs.projectName || '未命名'; // 恢复数据命名
-        }
-    });
-}
-
-// 导出数据
 document.getElementById('exportButton').addEventListener('click', function() {
-    chrome.storage.local.get('inputs', function(data) {
-        if (data.inputs) {
-            var fileName = data.inputs.projectName ? data.inputs.projectName + '.json' : 'exported_data.json'; // 使用数据命名作为文件名
-            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data.inputs));
-            var downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", fileName);
-            document.body.appendChild(downloadAnchorNode); // Firefox需要这一步
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
-        }
-    });
+    // 获取数据
+    var questionData = JSON.parse(localStorage.getItem('questionDetailData')) || {};
+    var extraRequestData = JSON.parse(localStorage.getItem('extraRequestData')) || {};
+    var questionBackgroundData = JSON.parse(localStorage.getItem('questionBackgroundData')) || {};
+    var moduleData = JSON.parse(localStorage.getItem('moduleData')) || {};
+
+    // 构建JSON对象
+    var exportData = {
+        specificIssues: questionData.specificIssues,
+        emphasisCorrection: questionData.emphasisCorrection,
+        extraRequest: extraRequestData.extraRequest,
+        relatedModule: questionBackgroundData.relatedModule,
+        specificCode: questionBackgroundData.specificCode,
+        keyfileTree: moduleData.keyfileTree,
+        classFunctionDesc: moduleData.classFunctionDesc,
+        classVariable: moduleData.classVariable
+    };
+
+    // 将对象转换为JSON字符串
+    var jsonStr = JSON.stringify(exportData, null, 2);
+
+    // 创建Blob对象
+    var blob = new Blob([jsonStr], { type: 'application/json' });
+
+    // 获取项目名称
+    var projectName = document.getElementById('projectName').innerText || '未命名项目';
+
+    // 创建下载链接
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    // 使用项目名称作为文件名的一部分
+    a.download = projectName + '.json';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
 });
 
 
-// 导入数据
+
+
+
+// 导入数据按钮点击事件
 document.getElementById('importButton').addEventListener('click', function() {
     var fileInput = document.getElementById('fileInput');
+    if (!fileInput) {
+        fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.style.display = 'none';
+        document.body.appendChild(fileInput);
+    }
     fileInput.click();
+
     fileInput.onchange = function() {
         var file = fileInput.files[0];
         var reader = new FileReader();
         reader.onload = function(e) {
             var importedData = JSON.parse(e.target.result);
-            chrome.storage.local.set({inputs: importedData}, function() {
-                restoreInputs(); // 更新UI
-            });
+
+            // 存储解析后的数据到localStorage
+            localStorage.setItem('questionDetailData', JSON.stringify({ specificIssues: importedData.specificIssues, emphasisCorrection: importedData.emphasisCorrection }));
+            localStorage.setItem('extraRequestData', JSON.stringify({ extraRequest: importedData.extraRequest }));
+            localStorage.setItem('questionBackgroundData', JSON.stringify({ relatedModule: importedData.relatedModule, specificCode: importedData.specificCode }));
+            localStorage.setItem('moduleData', JSON.stringify({ keyfileTree: importedData.keyfileTree, classFunctionDesc: importedData.classFunctionDesc, classVariable: importedData.classVariable }));
+
+            // 更新页面上显示的项目名称
+            // 假设导出的文件名格式为: 项目名称.json
+            var projectName = file.name.replace('.json', '');
+            document.getElementById('projectName').innerText = projectName;
+
+            // 同时更新localStorage中的项目名称
+            localStorage.setItem('projectName', projectName);
+
+            alert('数据导入成功！');
         };
         reader.readAsText(file);
     };

@@ -9,7 +9,7 @@ function copyAllDataToClipboard() {
     var combinedData =
 `prompt=question+extra request+question background+module
 
-question
+【question】
 question=具体问题+强调修正
 具体问题: 
 ${questionData.specificIssues || ''}
