@@ -1,6 +1,15 @@
-// 当页面加载完毕时，从 localStorage 中获取额外请求的数据并显示在输入框中
+import resizeTextArea from "../util/resizeTextArea.js";
+
+// 当页面加载完毕时，从 localStorage 中获取数据并显示在输入框中
 document.addEventListener('DOMContentLoaded', function() {
     let extraRequest = document.getElementById('extraRequest');
+
+    // 动态调整输入框大小
+
+    [extraRequest].forEach(textarea => {
+        textarea.addEventListener('focus', () => resizeTextArea(textarea));
+        textarea.addEventListener('input', () => resizeTextArea(textarea));
+    });
 
     // 从 localStorage 中恢复数据
     let savedData = localStorage.getItem('extraRequestData');

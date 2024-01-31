@@ -1,8 +1,17 @@
+import resizeTextArea from '../util/resizeTextArea.js';
+
 // 当页面加载完毕时，从 localStorage 中获取模块的数据并显示在输入框中
 document.addEventListener('DOMContentLoaded', function() {
     let keyfileTree = document.getElementById('keyfileTree');
     let classFunctionDesc = document.getElementById('classFunctionDesc');
     let classVariable = document.getElementById('classVariable');
+
+    // 动态调整输入框大小
+    [keyfileTree, classFunctionDesc, classVariable].forEach(textarea => {
+        textarea.addEventListener('focus', () => resizeTextArea(textarea));
+        textarea.addEventListener('input', () => resizeTextArea(textarea));
+    });
+
 
     // 从 localStorage 中恢复数据
     let savedData = localStorage.getItem('moduleData');
