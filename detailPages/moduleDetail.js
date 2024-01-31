@@ -1,11 +1,11 @@
 // 当页面加载完毕时，从 localStorage 中获取模块的数据并显示在输入框中
 document.addEventListener('DOMContentLoaded', function() {
-    var keyfileTree = document.getElementById('keyfileTree');
-    var classFunctionDesc = document.getElementById('classFunctionDesc');
-    var classVariable = document.getElementById('classVariable');
+    let keyfileTree = document.getElementById('keyfileTree');
+    let classFunctionDesc = document.getElementById('classFunctionDesc');
+    let classVariable = document.getElementById('classVariable');
 
     // 从 localStorage 中恢复数据
-    var savedData = localStorage.getItem('moduleData');
+    let savedData = localStorage.getItem('moduleData');
     if (savedData) {
         savedData = JSON.parse(savedData);
         keyfileTree.value = savedData.keyfileTree || '';
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 保存数据到 localStorage
 function saveData() {
-    var dataToSave = {
+    let dataToSave = {
         keyfileTree: document.getElementById('keyfileTree').value,
         classFunctionDesc: document.getElementById('classFunctionDesc').value,
         classVariable: document.getElementById('classVariable').value

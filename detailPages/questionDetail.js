@@ -1,10 +1,10 @@
 // 当页面加载完毕时，从 localStorage 中获取数据并显示在输入框中
 document.addEventListener('DOMContentLoaded', function() {
-    var specificIssues = document.getElementById('specificIssues');
-    var emphasisCorrection = document.getElementById('emphasisCorrection');
+    let specificIssues = document.getElementById('specificIssues');
+    let emphasisCorrection = document.getElementById('emphasisCorrection');
 
     // 从 localStorage 中恢复数据
-    var savedData = localStorage.getItem('questionDetailData');
+    let savedData = localStorage.getItem('questionDetailData');
     if (savedData) {
         savedData = JSON.parse(savedData);
         specificIssues.value = savedData.specificIssues || '';
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 保存数据到 localStorage
 function saveData() {
-    var dataToSave = {
+    let dataToSave = {
         specificIssues: document.getElementById('specificIssues').value,
         emphasisCorrection: document.getElementById('emphasisCorrection').value
     };

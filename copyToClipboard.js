@@ -1,12 +1,12 @@
 function copyAllDataToClipboard() {
     // 获取localStorage中的所有数据
-    var questionData = JSON.parse(localStorage.getItem('questionDetailData')) || {};
-    var extraRequestData = JSON.parse(localStorage.getItem('extraRequestData')) || {};
-    var questionBackgroundData = JSON.parse(localStorage.getItem('questionBackgroundData')) || {};
-    var moduleData = JSON.parse(localStorage.getItem('moduleData')) || {};
+    let questionData = JSON.parse(localStorage.getItem('questionDetailData')) || {};
+    let extraRequestData = JSON.parse(localStorage.getItem('extraRequestData')) || {};
+    let questionBackgroundData = JSON.parse(localStorage.getItem('questionBackgroundData')) || {};
+    let moduleData = JSON.parse(localStorage.getItem('moduleData')) || {};
 
     // 组合成一段带有子标题的文本
-    var combinedData =
+    let combinedData =
 `prompt=question+extra request+question background+module
 
 【question】

@@ -1,9 +1,9 @@
 // 获取按钮的DOM元素
-var questionButton = document.getElementById('questionButton');
-var extraRequestButton = document.getElementById('extraRequestButton');
-var questionBackgroundButton = document.getElementById('questionBackgroundButton');
-var moduleButton = document.getElementById('moduleButton');
-var copyButton = document.getElementById('copyButton');
+let questionButton = document.getElementById('questionButton');
+let extraRequestButton = document.getElementById('extraRequestButton');
+let questionBackgroundButton = document.getElementById('questionBackgroundButton');
+let moduleButton = document.getElementById('moduleButton');
+let copyButton = document.getElementById('copyButton');
 
 // 设置按钮的点击事件监听器，用于改变当前页面的地址
 questionButton.addEventListener('click', function() {
@@ -29,7 +29,7 @@ document.getElementById('copyButton').addEventListener('click', copyAllDataToCli
 document.addEventListener('DOMContentLoaded', function() {
 
     // 从 localStorage 获取最后打开的页面
-    var lastOpenedPage = localStorage.getItem('lastOpenedPage');
+    let lastOpenedPage = localStorage.getItem('lastOpenedPage');
     console.log('Trying to navigate to:', lastOpenedPage);
     // 如果存储中有页面状态，则导航到该页面
     if (lastOpenedPage) {
@@ -37,14 +37,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 从 localStorage 加载 projectName
-    var savedProjectName = localStorage.getItem('projectName');
+    let savedProjectName = localStorage.getItem('projectName');
     if (savedProjectName) {
         document.getElementById('projectName').innerText = savedProjectName;
     }
 
     // 实时监听 projectName 的更改并保存到 localStorage
     document.getElementById('projectName').addEventListener('input', function() {
-        var currentProjectName = document.getElementById('projectName').innerText;
+        let currentProjectName = document.getElementById('projectName').innerText;
         localStorage.setItem('projectName', currentProjectName);
     });
 
@@ -53,13 +53,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('exportButton').addEventListener('click', function() {
     // 获取数据
-    var questionData = JSON.parse(localStorage.getItem('questionDetailData')) || {};
-    var extraRequestData = JSON.parse(localStorage.getItem('extraRequestData')) || {};
-    var questionBackgroundData = JSON.parse(localStorage.getItem('questionBackgroundData')) || {};
-    var moduleData = JSON.parse(localStorage.getItem('moduleData')) || {};
+    let questionData = JSON.parse(localStorage.getItem('questionDetailData')) || {};
+    let extraRequestData = JSON.parse(localStorage.getItem('extraRequestData')) || {};
+    let questionBackgroundData = JSON.parse(localStorage.getItem('questionBackgroundData')) || {};
+    let moduleData = JSON.parse(localStorage.getItem('moduleData')) || {};
 
     // 构建JSON对象
-    var exportData = {
+    let exportData = {
         specificIssues: questionData.specificIssues,
         emphasisCorrection: questionData.emphasisCorrection,
         extraRequest: extraRequestData.extraRequest,
@@ -71,17 +71,17 @@ document.getElementById('exportButton').addEventListener('click', function() {
     };
 
     // 将对象转换为JSON字符串
-    var jsonStr = JSON.stringify(exportData, null, 2);
+    let jsonStr = JSON.stringify(exportData, null, 2);
 
     // 创建Blob对象
-    var blob = new Blob([jsonStr], { type: 'application/json' });
+    let blob = new Blob([jsonStr], { type: 'application/json' });
 
     // 获取项目名称
-    var projectName = document.getElementById('projectName').innerText || '未命名项目';
+    let projectName = document.getElementById('projectName').innerText || '未命名项目';
 
     // 创建下载链接
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a');
     a.href = url;
     // 使用项目名称作为文件名的一部分
     a.download = projectName + '.json';
@@ -97,7 +97,7 @@ document.getElementById('exportButton').addEventListener('click', function() {
 
 // 导入数据按钮点击事件
 document.getElementById('importButton').addEventListener('click', function() {
-    var fileInput = document.getElementById('fileInput');
+    let fileInput = document.getElementById('fileInput');
     if (!fileInput) {
         fileInput = document.createElement('input');
         fileInput.type = 'file';
@@ -107,10 +107,10 @@ document.getElementById('importButton').addEventListener('click', function() {
     fileInput.click();
 
     fileInput.onchange = function() {
-        var file = fileInput.files[0];
-        var reader = new FileReader();
+        let file = fileInput.files[0];
+        let reader = new FileReader();
         reader.onload = function(e) {
-            var importedData = JSON.parse(e.target.result);
+            let importedData = JSON.parse(e.target.result);
 
             // 存储解析后的数据到localStorage
             localStorage.setItem('questionDetailData', JSON.stringify({ specificIssues: importedData.specificIssues, emphasisCorrection: importedData.emphasisCorrection }));
@@ -120,7 +120,7 @@ document.getElementById('importButton').addEventListener('click', function() {
 
             // 更新页面上显示的项目名称
             // 假设导出的文件名格式为: 项目名称.json
-            var projectName = file.name.replace('.json', '');
+            let projectName = file.name.replace('.json', '');
             document.getElementById('projectName').innerText = projectName;
 
             // 同时更新localStorage中的项目名称

@@ -1,9 +1,9 @@
 // 当页面加载完毕时，从 localStorage 中获取额外请求的数据并显示在输入框中
 document.addEventListener('DOMContentLoaded', function() {
-    var extraRequest = document.getElementById('extraRequest');
+    let extraRequest = document.getElementById('extraRequest');
 
     // 从 localStorage 中恢复数据
-    var savedData = localStorage.getItem('extraRequestData');
+    let savedData = localStorage.getItem('extraRequestData');
     if (savedData) {
         savedData = JSON.parse(savedData);
         extraRequest.value = savedData.extraRequest || '';
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 保存数据到 localStorage
 function saveData() {
-    var dataToSave = {
+    let dataToSave = {
         extraRequest: document.getElementById('extraRequest').value
     };
     localStorage.setItem('extraRequestData', JSON.stringify(dataToSave));
