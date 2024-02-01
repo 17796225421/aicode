@@ -3,6 +3,15 @@
 <head>
     <title>Chrome Extension Popup</title>
     <meta charset="UTF-8">
+    <style>
+        /* 定义一个flex容器，将所有的按钮放在这个容器中 */
+        .button-container {
+            display: flex;
+            width: 500px;
+            /* 设置按钮之间的间距 */
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
 <div>
@@ -10,14 +19,17 @@
     <span id="projectName" contenteditable="true">默认命名</span>
 </div>
 
-<button id="questionButton">Question</button>
-<button id="extraRequestButton">Extra Request</button>
-<button id="questionBackgroundButton">Question Background</button>
-<button id="moduleButton">Module</button>
+<!-- 所有的按钮都放在这个flex容器中 -->
+<div class="button-container">
+    <button id="questionButton">Question</button>
+    <button id="extraRequestButton">Extra Request</button>
+    <button id="questionBackgroundButton">Question Background</button>
+    <button id="moduleButton">Module</button>
 
-<button id="copyButton">复制</button>
-<button id="exportButton">导出</button>
-<button id="importButton">导入</button>
+    <button id="copyButton">复制</button>
+    <button id="exportButton">导出</button>
+    <button id="importButton">导入</button>
+</div>
 <input type="file" id="fileInput" style="display:none" />
 
 <script src="util/copyToClipboard.js"></script>
