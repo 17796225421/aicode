@@ -20,9 +20,7 @@ function copyAllDataToClipboard() {
 
     // 组合成一段带有子标题的文本
     let combinedData =
-        `prompt=question+extra request+question background+module
-
-【question】
+`【question】
 question=具体问题+强调修正
 具体问题: 
 ${questionData.specificIssues || ''}
@@ -52,7 +50,55 @@ ${classFile || ""}`;
     // 复制到剪贴板
     navigator.clipboard.writeText(combinedData).then(function () {
         console.log('内容已复制到粘贴板');
+
+        openAndArrangeWindows(); // 假设这就是您想要执行的函数
+
     }, function (err) {
         console.error('无法复制内容: ', err);
+    });
+}
+
+function openAndArrangeWindows() {
+    let window1, window2;
+
+    const outerWidth = screen.width;
+    const outerHeight = screen.height;
+
+    // 创建第一个窗口，并保存引用
+    chrome.windows.create({
+        url: 'https://gpt4v.ddaiai.com/',
+        type: 'popup',
+        left:outerWidth/2,
+        top: 0,
+        width: outerWidth / 4 * 1.05,
+        height: outerHeight
+    }, function (win) {
+        window1 = win;
+    });
+
+    // 创建第二个窗口，并保存引用
+    chrome.windows.create({
+        url: 'https://gpt4v.ddaiai.com/',
+        type: 'popup',
+        left: outerWidth/4*3,
+        top: 0,
+        width: outerWidth / 4 * 1.05,
+        height: outerHeight
+    }, function (win) {
+        window2 = win;
+    });
+
+    // 监听第一个窗口的关闭事件
+    chrome.windows.onRemoved.addListener(function (windowId) {
+        if (windowId === window1.id && window2) {
+            chrome.windows.remove(window2.id);
+        }
+    });
+
+    // 监听第二个窗口的关闭事件
+    chrome.windows.onRemoved.addListener(function (windowId) {
+        if (windowId === window2.id && window1) {
+            chrome.windows.remove(window1.id);
+        }
     });
 }

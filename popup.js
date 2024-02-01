@@ -22,8 +22,7 @@ moduleButton.addEventListener('click', function() {
     window.location.href = 'detailPages/moduleDetail.html';
 });
 
-// 直接为复制按钮绑定复制功能的事件监听器
-document.getElementById('copyButton').addEventListener('click', copyAllDataToClipboard);
+copyButton.addEventListener('click', copyAllDataToClipboard);
 
 // 页面加载时，从存储中恢复数据
 document.addEventListener('DOMContentLoaded', function() {
