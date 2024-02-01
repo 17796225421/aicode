@@ -6,45 +6,47 @@ function copyAllDataToClipboard() {
     let moduleData = JSON.parse(localStorage.getItem('moduleData')) || {};
 
     let classFile = '';
+    let i=1;
     // 遍历 moduleData 对象中的每个 op
     for (const fileName in moduleData) {
         if (moduleData.hasOwnProperty(fileName) && fileName !== 'keyfileTree') {
             const fileDesc = moduleData[fileName];
 
             // 将 functionDesc 和 variableDesc 添加到结果字符串
-            classFile += `${fileName}:\n`;
-            classFile += `函数描述:\n ${fileDesc.functionDesc}\n`;
-            classFile += `变量描述:\n ${fileDesc.variableDesc}\n\n`;
+            classFile += `4.3.${i}.${fileName}:\n`;
+            classFile += `4.3.${i}.1.函数描述:\n ${fileDesc.functionDesc}\n`;
+            classFile += `4.3.${i}.2.变量描述:\n ${fileDesc.variableDesc}\n\n`;
+            i++;
         }
     }
 
     // 组合成一段带有子标题的文本
     let combinedData =
-`【question】
-question=具体问题+强调修正
-具体问题: 
+`1.【question】
+1.1.question=具体问题+强调修正
+1.2.具体问题: 
 ${questionData.specificIssues || ''}
-强调修正: 
+1.3.强调修正: 
 ${questionData.emphasisCorrection || ''}
 
-【extra request】
-extra request=额外请求
-额外请求: 
+2.【extra request】
+2.1.extra request=额外请求
+2.2.额外请求: 
 ${extraRequestData.extraRequest || ''}
 
-【question background】
-question background=相关模块+具体代码
-相关模块: 
+3.【question background】
+3.1.question background=相关模块+具体代码
+3.2.相关模块: 
 ${questionBackgroundData.relatedModule || ''}
-具体代码: 
+3.3.具体代码: 
 ${questionBackgroundData.specificCode || ''}
 
-【module】
-module=关键文件树+类文件描述
-关键文件树: 
+4.【module】
+4.1.module=关键文件树+类文件描述
+4.2.关键文件树: 
 ${moduleData.keyfileTree || ''}
 
-类文件描述：
+4.3.类文件描述：
 ${classFile || ""}`;
 
     // 复制到剪贴板
