@@ -22,7 +22,8 @@ function copyAllDataToClipboard() {
 
     // 组合成一段带有子标题的文本
     let combinedData =
-`1.【question】
+`接下来我会给你question，紧接着会给你一些背景信息，比如extra request、question background、module background，你的任务是解决我给你的question
+1.【question】
 1.1.question=具体问题+强调修正
 1.2.具体问题: 
 ${questionData.specificIssues || ''}
@@ -41,7 +42,7 @@ ${questionBackgroundData.relatedModule || ''}
 3.3.具体代码: 
 ${questionBackgroundData.specificCode || ''}
 
-4.【module】
+4.【module background】
 4.1.module=关键文件树+类文件描述
 4.2.关键文件树: 
 ${moduleData.keyfileTree || ''}
