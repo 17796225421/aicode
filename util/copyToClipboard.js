@@ -64,6 +64,19 @@ ${classFile || ""}`;
 function openAndArrangeWindows() {
     let window1, window2;
 
+    // 获取所有窗口
+    chrome.windows.getAll({populate: true}, function(windows) {
+        windows.forEach(function(window) {
+            window.tabs.forEach(function(tab) {
+                // 检查是否是我们需要的窗口
+                if (tab.url === 'https://chatkit.app/') {
+                    // 是的话就关闭
+                    chrome.windows.remove(window.id);
+                }
+            });
+        });
+    });
+
     const outerWidth = screen.width;
     const outerHeight = screen.height;
 
