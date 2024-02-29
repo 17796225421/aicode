@@ -91,7 +91,7 @@ function openAndArrangeWindows() {
 
     // 创建第一个窗口，并保存引用
     chrome.windows.create({
-        url: 'https://poe.com/GPT-4-32k',
+        url: 'https://chatkit.app/',
         type: 'popup',
         left:outerWidth/2,
         top: 0,
@@ -103,7 +103,7 @@ function openAndArrangeWindows() {
 
     // 创建第二个窗口，并保存引用
     chrome.windows.create({
-        url: 'https://poe.com/GPT-4-32k',
+        url: 'https://chatkit.app/',
         type: 'popup',
         left: outerWidth/4*3,
         top: 0,
