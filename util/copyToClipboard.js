@@ -48,7 +48,16 @@ ${questionBackgroundData.specificCode || ''}
 ${moduleData.keyfileTree || ''}
 
 4.3.类文件描述：
-${classFile || ""}`;
+${classFile || ""}
+
+最后再次强调我的问题是：
+5.【question】
+5.1.question=具体问题+强调修正
+5.2.具体问题: 
+${questionData.specificIssues || ''}
+5.3.强调修正: 
+${questionData.emphasisCorrection || ''}
+`;
 
     // 复制到剪贴板
     navigator.clipboard.writeText(combinedData).then(function () {
@@ -82,7 +91,7 @@ function openAndArrangeWindows() {
 
     // 创建第一个窗口，并保存引用
     chrome.windows.create({
-        url: 'https://chatkit.app/',
+        url: 'https://poe.com/GPT-4-32k',
         type: 'popup',
         left:outerWidth/2,
         top: 0,
@@ -94,7 +103,7 @@ function openAndArrangeWindows() {
 
     // 创建第二个窗口，并保存引用
     chrome.windows.create({
-        url: 'https://chatkit.app/',
+        url: 'https://poe.com/GPT-4-32k',
         type: 'popup',
         left: outerWidth/4*3,
         top: 0,
